@@ -1,0 +1,39 @@
+.news-letter {
+  padding-top: 4.5rem;
+  padding-bottom: 4rem;
+  text-align: center;
+  background-color: var(--clr-accent-100);
+}
+
+.news-letter p {
+  margin-bottom: 3rem;
+}
+
+.news-letter form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.outlined-input-xl {
+  padding: 1rem 0.75rem;
+  border-radius: 0.25rem;
+}
+
+@media (min-width: 992px) {
+  .news-letter p {
+    width: 43rem;
+    margin-inline: auto;
+  }
+
+  .news-letter form {
+    flex-direction: row;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .outlined-input-xl {
+    width: 20rem;
+    border-radius: 100vmax 0.25rem 0.25rem 100vmax;
+  }
+}

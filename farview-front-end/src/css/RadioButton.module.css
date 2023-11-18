@@ -1,0 +1,28 @@
+.rb-radio {
+  display: none;
+}
+
+.rb-label {
+  cursor: pointer;
+  background-color: var(--clr-accent-100);
+  color: var(--clr-accent-300);
+  font-weight: var(--fw-700);
+  padding: 0.5rem 0.9375rem;
+  border: 1px solid var(--clr-accent-100);
+  border-radius: 5px;
+  transition: 0.3s;
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  -o-appearance: button;
+  -ms-appearance: button;
+  appearance: button;
+}
+
+.rb-label:hover {
+  border: 1px solid var(--clr-accent-300);
+}
+
+.rb-radio:checked + .rb-label {
+  color: var(--clr-accent-100);
+  background-color: var(--clr-accent-300);
+}

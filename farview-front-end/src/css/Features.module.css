@@ -1,0 +1,45 @@
+.features {
+  padding: 6.25rem 0px 0;
+}
+
+.col-a,
+.col-b {
+  display: flex;
+  justify-content: center;
+}
+
+.col-a img{
+  object-fit: cover;
+}
+
+.col-b {
+  flex-direction: column;
+}
+
+.col-b h3 {
+  font-size: var(--fs-575);
+  margin-bottom: 1.125rem;
+}
+
+.col-b p {
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+.gap {
+  gap: 3rem;
+}
+
+@media (min-width: 992px) {
+  .col-a {
+    max-height: 432px;
+    max-width: 453px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .col-a {
+    max-height: 531px;
+    max-width: 506px;
+  }
+}

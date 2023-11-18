@@ -1,0 +1,116 @@
+.appointment-form svg {
+  color: var(--clr-accent-400);
+  height: var(--fs-300);
+}
+
+.selected-date {
+  margin-top: -0.625rem;
+  margin-bottom: 0.8rem;
+}
+
+.selected-date p,
+.appointment-details p {
+  display: inline;
+  margin-left: 0.5rem;
+  font-size: var(--fs-300);
+}
+
+.input-icon path {
+  color: var(--clr-accent-300);
+}
+
+.hours-container {
+  display: flex;
+  flex-direction: row;
+  max-width: 100%;
+  flex-wrap: wrap;
+  gap: 0.5rem 2.5rem;
+}
+
+.appointment-details button {
+  display: block;
+  margin-top: 1.5rem;
+}
+
+.appointment-details {
+  background-color: var(--clr-accent-100);
+  padding: 1.8rem;
+  display: flex;
+}
+
+.appointment-details p {
+  font-size: 1rem;
+}
+
+.appointment-details button {
+  margin-left: auto;
+}
+
+.col-a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  overflow-x: hidden;
+}
+
+.col-a,
+.col-b {
+  width: 100%;
+}
+
+.col-b {
+  display: none;
+}
+
+.col-b img {
+  max-height: auto;
+}
+
+.btn-container {
+  width: 100%;
+  text-align: center;
+}
+
+.details-header {
+  font-family: var(--ff-primary);
+  font-size: var(--fs-575);
+  color: var(--clr-neutral-900);
+  margin-bottom: 1.5rem;
+}
+
+.general-error {
+  color: red;
+  font-weight: var(--fw-600);
+}
+
+.red-icon path {
+  fill: red;
+}
+
+@media (min-width: 992px) {
+  .col-b {
+    display: block;
+  }
+  .col-a,
+  .col-b {
+    width: 50%;
+  }
+
+  .appointment-details button {
+    margin-left: 0;
+  }
+
+  .hours-container {
+    max-width: 80%;
+  }
+}
+
+@media (max-width:396px){
+  .details-header{
+    font-size: var(--fs-550);
+    text-align: center;
+  }
+  .appointment-details button {
+    margin-right: auto;
+  }
+}

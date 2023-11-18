@@ -1,0 +1,100 @@
+.input-container-md {
+  margin-bottom: 0.8rem;
+  position: relative;
+  z-index: 1;
+}
+
+.input-container-xl {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+}
+
+.outlined-input {
+  font-size: var(--fs-400);
+  font-weight: var(--fs-400);
+  background-color: var(--clr-neutral-100);
+  border: 1px solid #ced4da;
+  color: var(--clr-neutral-400);
+  transition: 0.15s;
+}
+
+.outlined-input:hover,
+.outlined-input:focus {
+  border: 1px solid #a1a1a1;
+}
+
+.outlined-input:focus {
+  outline: 5px solid #bad7ee;
+}
+
+.outlined-input-fixed-radius {
+  border-radius: 0.25rem;
+}
+
+.outlined-input-xl {
+  padding: 1rem 0.75rem;
+  border-radius: 0.25rem;
+  width: 100%;
+}
+
+.outlined-input-md {
+  width: 100%;
+  padding: 0.4rem;
+}
+
+.outlined-input-sm {
+  padding: 0.375rem 0.75rem;
+  margin-left: 1rem;
+}
+
+.iconed-input-sm {
+  outline: none;
+  border: none;
+  padding: 0.375rem 0.75rem;
+  width: 90%;
+}
+
+.iconed-input-group {
+  border-bottom: 1px solid #ced4da;
+  max-width: 21.375rem;
+  margin-top: 0.5rem;
+}
+
+.iconed-input-label {
+  display: block;
+  color: var(--clr-neutral-500);
+  font-weight: var(--fw-700);
+  font-size: var(--fs-300);
+}
+
+.error-message-container {
+  position: absolute;
+  top: 4rem;
+  width: 100%;
+}
+
+.error-message-md {
+  color: red;
+  font-size: var(--fs-300);
+}
+
+.error-message-xl {
+  position: absolute;
+  top: 3.75rem;
+  width: 100%;
+  color: red;
+  font-size: var(--fs-400);
+}
+
+@media (min-width: 992px) {
+  .outlined-input-xl {
+    width: 20rem;
+    padding: 1rem 0.75rem 1rem 1.75rem;
+    border-radius: 100vmax 0.25rem 0.25rem 100vmax;
+  }
+
+  .error-message-xl {
+    margin-left: 2rem;
+  }
+}

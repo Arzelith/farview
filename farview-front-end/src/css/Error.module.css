@@ -1,0 +1,39 @@
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  height: 100vh;
+  background-color: var(--clr-accent-300);
+}
+
+.error svg {
+  height: 8rem;
+}
+.error svg path {
+  fill: rgb(228, 228, 86);
+}
+
+.error .error-message-container p {
+  line-height: 2.5rem;
+  font-weight: bold;
+  font-size: 1.3rem;
+  line-height: 1.7rem;
+  font-family: var(--ff-primary);
+  color: var(--clr-neutral-100);
+}
+
+.error button{
+  display: block;
+  margin-top: 0.8rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 768px) {
+  .error .error-message-container p {
+    font-size: var(--fs-600);
+    line-height: 3rem;
+  }
+}

@@ -1,0 +1,40 @@
+/* SECTION DECORATOR */
+
+.section-decorator,
+.section-decorator-reverse {
+  width: 100%;
+  height: 2.75rem;
+}
+
+@media (min-width: 768px) {
+  .section-decorator,
+  .section-decorator-reverse {
+    height: 4rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .section-decorator,
+  .section-decorator-reverse {
+    height: 6rem;
+  }
+}
+
+.section-decorator path,
+.section-decorator-reverse path {
+  fill: var(--clr-accent-100);
+}
+
+.section-decorator-reverse {
+  transform: rotate(180deg);
+  margin-bottom: -1rem;
+}
+
+/* HEADING DECORATOR */
+
+.heading-decorator {
+  display: block;
+  margin-inline: auto;
+  max-width: 5.75rem;
+  max-height: 0.75rem;
+}

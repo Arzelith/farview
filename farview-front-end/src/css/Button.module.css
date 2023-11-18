@@ -1,0 +1,54 @@
+.btn-default {
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  padding: 1.25rem 2.5rem;
+  line-height: 1;
+  font-size: var(--fs-300);
+  font-weight: var(--fw-600);
+  border: 1px solid var(--clr-accent-400);
+  color: var(--clr-neutral-100);
+  background-color: var(--clr-accent-400);
+  transition: 0.3s;
+}
+
+.btn-default:hover {
+  background-color: transparent;
+  color: var(--clr-accent-400);
+  transition: 0.3s;
+}
+
+.border-radius-100,
+.variable-b-radius {
+  border-radius: 100vmax;
+}
+
+.variable-b-radius {
+  max-height: 3.625rem;
+}
+
+.fit-content {
+  width: fit-content;
+}
+
+.btn-light {
+  cursor: pointer;
+  background-color: var(--clr-accent-100);
+  color: var(--clr-accent-300);
+  font-weight: var(--fw-700);
+  padding: 1.25rem 2rem;
+  border: none;
+  border-radius: 100vmax;
+  transition: 0.3s;
+}
+
+.btn-light:focus {
+  color: var(--clr-accent-100);
+  background-color: var(--clr-accent-400);
+}
+
+@media (min-width: 992px) {
+  .variable-b-radius {
+    border-radius: 0.25rem 100vmax 100vmax 0.25rem;
+  }
+}

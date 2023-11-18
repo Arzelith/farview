@@ -1,0 +1,134 @@
+nav {
+  position: fixed;
+  z-index: 300;
+  width: 100%;
+  background-color: var(--clr-neutral-100);
+  box-shadow: 0 0 0.75em rgb(0, 0, 0, 0.08);
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin-inline: auto;
+}
+
+.brand-container {
+  display: flex;
+  align-items: center;
+  height: 45px;
+  text-decoration: none;
+}
+
+.brand-container img {
+  height: 5rem;
+}
+
+.brand-container p {
+  font-family: var(--ff-primary);
+}
+
+.farview {
+  font-size: var(--fs-primary);
+  letter-spacing: 0.2rem;
+  font-weight: var(--fw-700);
+  color: var(--clr-neutral-900);
+  margin-left: 0.3rem;
+}
+
+.primary-navigation-mobile {
+  position: fixed;
+  display: block;
+  top: 62px;
+  left: -4px;
+  padding-top: 1rem;
+
+  height: calc(100vh - 62px);
+  z-index: 80;
+  background-color: var(--clr-neutral-100);
+  box-shadow: 0 0 0.75em rgb(0, 0, 0, 0.15);
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+
+.show {
+  margin-left: 0px;
+  width: 230px;
+}
+
+.hide {
+  margin-left: -230px;
+  width: 0;
+}
+
+.primary-navigation-mobile .nav-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-list a {
+  text-decoration: none;
+  /* color: var(--clr-neutral-400); */
+  font-size: var(--fs-400);
+  font-weight: var(--fw-600);
+  padding: 10px 12px;
+  transition: 0.3s;
+}
+
+/* .nav-list a:hover,
+.nav-list a:focus {
+  color: var(--clr-accent-400);
+  transition: 0.3s;
+} */
+
+.nav-list a:hover {
+  color: var(--clr-accent-400);
+}
+
+.non-active {
+  color: var(--clr-neutral-400);
+}
+
+.active {
+  color: var(--clr-accent-400);
+}
+
+.btn-container {
+  padding: 10px 12px;
+  line-height: 1;
+  display: block;
+}
+
+.btn-container button {
+  cursor: pointer;
+  line-height: 1;
+  border: none;
+}
+
+.primary-navigation {
+  display: none;
+}
+
+@media (min-width: 1061px) {
+  .brand-container {
+    height: 60px;
+  }
+
+  .brand-container img {
+    height: 7rem;
+  }
+
+  .farview {
+    font-size: var(--fs-550);
+  }
+
+  .primary-navigation {
+    display: block;
+  }
+
+  .btn-container {
+    display: none;
+  }
+}

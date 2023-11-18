@@ -1,0 +1,29 @@
+.sec-wrapper{
+  margin: 2.1875rem 0 0.4375rem;
+}
+
+.numerator {
+  display: inline-block;
+  background-color: var(--clr-accent-100);
+  border-radius: 100vmax;
+  padding: 0.3125rem;
+  height: 2.1875rem;
+  width: 2.1875rem;
+  color: var(--clr-accent-300);
+  font-weight: 700;
+  text-align: center;
+}
+
+.sec-heading {
+  display: inline;
+  color: var(--clr-neutral-900);
+  font-weight: var(--fw-700);
+  margin-left: 0.25rem;
+}
+
+.sec-content{
+  margin-left: calc(2.1875rem + 0.25rem);
+  margin-top: 0.625rem;
+  display: flex;
+  flex-direction: column;
+}

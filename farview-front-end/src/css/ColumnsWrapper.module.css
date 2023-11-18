@@ -1,0 +1,15 @@
+.even-columns {
+  display: flex;
+  flex-direction: column;
+}
+
+.one-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 992px) {
+  .even-columns {
+    flex-direction: row;
+  }
+}

@@ -14,6 +14,8 @@ module.exports = {
   rules: {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     'react-refresh/only-export-components': 'warn',
+    'react/display-name':'off',
+    'no-empty-pattern':'off',
     'react/jsx-no-target-blank':'warn',
     'no-unused-vars': 'warn',
     'react/prop-types': 'off',
