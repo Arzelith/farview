@@ -1,27 +1,21 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { axiosPublic } from '../Api/axios';
+import handleServerError from '../utils/serverErrorHandler';
 import { Formik, Form } from 'formik';
+import appointmentVal from '../utils/forms-validations/appointment-validations';
 import SectionWrapper from './SectionWrapper';
-import NumeratedSectionWrapper from './NumeratedSectionWrapper';
-import Input from './Input';
-import Button from './Button';
-import RadioButton from './RadioButton';
-import * as Yup from 'yup';
+import AppointmentTime from './AppointmentTime';
+import AppointmentUserDetails from './AppointmentUserDetails';
+import AppointmentVerification from './AppointmentVerification';
+import InfoModal from './InfoModal';
 import isEmail from 'validator/lib/isEmail';
 import { validateRut } from '@fdograph/rut-utilities';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faCalendar,
-  faUser,
-  faEnvelope,
-  faPhone,
-  faLocation,
-  faX,
-} from '@fortawesome/free-solid-svg-icons';
+import { faUser, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment/moment';
 import 'moment/locale/es';
 moment().locale('es');
-import appointmentImage from '../assets/images/iStock-930864180.jpg';
+import FormikValueObserver from '../utils/FormikValueObserver';
 import styles from '../css/Appointment.module.css';
 
 const hours = [];
@@ -53,6 +47,7 @@ const inputs = [
 let currentDate = new Date();
 let minDate = new Date();
 let maxDate = new Date(new Date().getFullYear(), 11, 31);
+currentDate.setHours(0, 0, 0, 0);
 minDate.setHours(0, 0, 0, 0);
 maxDate.setHours(0, 0, 0, 0);
 let today = currentDate.toISOString().substring(0, 10);
@@ -68,13 +63,18 @@ const initialValues = {
   appointmentHour: '',
 };
 
-//PENDIENTE MODAL DE CONFIRMACIÓN & ERROR
-//PENDIENTE VALIDACION DE DIAS FESTIVOS
+//PENDIENTE MODAL DE CONFIRMACIÓN
 
 const Appointment = () => {
   const [hourChecked, setHourChecked] = useState(-1);
   const [holidays, setHolidays] = useState([]);
   const [holidaysLoading, setHolidaysLoading] = useState(false);
+  const [currentSelectedDate, setCurrentSelectedDate] = useState(
+    initialValues.appointmentDate
+  );
+  const [takenHours, setTakenHours] = useState([]);
+  const [serverError, setServerError] = useState();
+  const [appointmentSuccess, setAppointmentSuccess] = useState();
 
   const getHoliDays = async () => {
     try {
@@ -91,56 +91,56 @@ const Appointment = () => {
     }
   };
 
+  const getDailyAppointments = async () => {
+    try {
+      const response = await axiosPublic.get(
+        `/farview-app/v1/appointment/${moment(currentSelectedDate).format('DD-MM-YYYY')}`
+      );
+      setTakenHours(response.data);
+    } catch (error) {
+      const serverError = handleServerError(error);
+      setServerError({ title: serverError.status, message: serverError.message });
+    }
+  };
+
+  const makeAppointment = async (values, actions) => {
+    try {
+      const response = await axiosPublic.post('/farview-app/v1/appointment', values);
+      actions.setSubmitting(false);
+      actions.resetForm();
+      setHourChecked(-1);
+      setAppointmentSuccess(response.data);
+    } catch (error) {
+      actions.setSubmitting(false);
+      const serverError = handleServerError(error);
+      setServerError({ title: serverError.status, message: serverError.message });
+    }
+  };
+
+  const isTaken = (item) => {
+    let isTaken = false;
+    const now = new Date();
+    const dateData = currentSelectedDate.split('-');
+    const currentItemHour = item.split(':');
+    const current = new Date(
+      Number(dateData[0]),
+      Number(dateData[1]) - 1,
+      Number(dateData[2])
+    );
+    current.setHours(Number(currentItemHour[0]), Number(currentItemHour[1]));
+    if (takenHours.includes(item) || now > current) {
+      isTaken = true;
+    }
+    return isTaken;
+  };
+
   useEffect(() => {
     getHoliDays();
   }, []);
 
-  const validationSchema = Yup.object({
-    appointmentDate: Yup.date()
-      .min(minDate, 'La fecha ingresada no es válida')
-      .test(
-        'is-holiday',
-        'No es posible agendar hora en un día feriado',
-        (value) => !holidays.includes(moment(value).format('YYYY-MM-DD'))
-      )
-      .test(
-        'is-sunday',
-        'No es posible agendar hora en un día domingo',
-        (value) => !value.toString().startsWith('Sun')
-      ),
-    appointmentHour: Yup.string().required('Debe ingresar la hora de atención'),
-    rut: Yup.string()
-      .trim()
-      .required('Debe ingresar su RUT')
-      .test(
-        'is-valid-rut-format',
-        'Ingrese el RUT sin puntos y con guión',
-        (value) => !value.includes('.') && value[value.length - 2] === '-'
-      )
-      .test('is-valid-rut', 'El RUT ingresado no es válido', (value) =>
-        validateRut(value, false)
-      ),
-    names: Yup.string()
-      .trim()
-      .required('Debe ingresar sus nombres')
-      .max(40, 'Sus nombres no pueden exceder los 40 caracteres'),
-    lastNames: Yup.string()
-      .trim()
-      .required('Debe ingresar sus apellidos')
-      .max(40, 'Sus apellidos no pueden exceder los 40 caracteres'),
-    email: Yup.string()
-      .trim()
-      .required('Debe ingresar su email')
-      .test('is-valid-email', 'El email ingresado no es válido', (value) =>
-        isEmail(value)
-      ),
-    phone: Yup.string()
-      .trim()
-      .required('Debe ingresar su número de teléfono')
-      .test('is-valid-phone', 'Ingrese solo valores numéricos', (value) =>
-        /^[0-9]+$/.test(value)
-      ),
-  });
+  useEffect(() => {
+    getDailyAppointments();
+  }, [currentSelectedDate]);
 
   return (
     <SectionWrapper
@@ -150,131 +150,64 @@ const Appointment = () => {
       SectionType={'appointment'}
       oneColumn={true}
     >
+      {serverError && (
+        <InfoModal
+          type={'error'}
+          title={serverError.title}
+          message={serverError.message}
+          onClick={() => setServerError(null)}
+        />
+      )}
+      {appointmentSuccess && (
+        <InfoModal
+          type={'success'}
+          title={'Cita agendada con éxito'}
+          message={`Se ha reservado una hora para el ${moment(currentSelectedDate).format(
+            'dddd DD MMMM'
+          )} a las ${appointmentSuccess.appointmentHour}hrs a nombre de ${
+            appointmentSuccess.names
+          } ${appointmentSuccess.lastNames}. Detalles adicionales se han enviado a ${
+            appointmentSuccess.email
+          }.`}
+          onClick={() => setAppointmentSuccess(null)}
+        />
+      )}
       <Formik
         initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={(values, actions) => {
-          setTimeout(() => {
-            console.log({ ...values });
-            actions.setSubmitting(false);
-            setHourChecked(0);
-            actions.resetForm();
-          }, '1000');
+        validationSchema={appointmentVal(minDate, holidays, moment, validateRut, isEmail)}
+        onSubmit={async (values, actions) => {
+          await makeAppointment(values, actions);
         }}
       >
         {({ isSubmitting, errors, values, setFieldValue }) => (
           <Form className={`${styles['appointment-form']}`}>
-            <NumeratedSectionWrapper
-              secNumber={'1'}
-              secHeading={'¿Cuando desea su exámen visual?'}
-            >
-              <Input
-                labelText={'Fecha:'}
-                variant={'outlined-sm'}
-                name='appointmentDate'
-                type='date'
-                min={today}
-                max={lastDayOfYear}
-                disabled={isSubmitting || holidaysLoading}
-              />
-              <div className={`${styles['selected-date']}`}>
-                <FontAwesomeIcon icon={faCalendar} />
-                <p>{moment(values.appointmentDate).format('dddd DD MMMM YYYY')}</p>
-              </div>
-
-              <div className={`${styles['input-group']}`}>
-                <label>Horario:</label>
-                <Input
-                  name={'appointmentHour'}
-                  hidden={true}
-                  variant={'outlined-sm'}
-                  type={'text'}
-                />
-
-                <div className={`${styles['hours-container']}`}>
-                  {hours.map((item, index) => (
-                    <RadioButton
-                      key={item}
-                      id={`radio${item}`}
-                      name={'radioHours'}
-                      innerText={item}
-                      checked={hourChecked === index}
-                      disabled={isSubmitting}
-                      onChange={() => {
-                        setFieldValue('appointmentHour', item);
-                        setHourChecked(index);
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-            </NumeratedSectionWrapper>
-            <NumeratedSectionWrapper secNumber={'2'} secHeading={'cuentanos Sobre ti'}>
-              {inputs.map((input) => (
-                <Input
-                  icon={input.icon}
-                  key={input.label}
-                  name={input.name}
-                  type={'text'}
-                  variant={'iconed-sm'}
-                  labelText={input.label}
-                  placeholder={input.placeHolder}
-                  autoComplete='off'
-                />
-              ))}
-            </NumeratedSectionWrapper>
-
-            <NumeratedSectionWrapper
-              secNumber={'3'}
-              secHeading={'Verificación y confirmación'}
-            >
-              <div className={`${styles['appointment-details']}`}>
-                <div className={styles[`col-a`]}>
-                  <h3 className={`${styles['details-header']}`}>Detalle de la Cita</h3>
-                  <div>
-                    <FontAwesomeIcon icon={faLocation} />
-                    <p>Avenida siempreviva #742, Springfield</p>
-                  </div>
-                  {values.appointmentDate && values.appointmentHour && (
-                    <div>
-                      <FontAwesomeIcon icon={faCalendar} />
-                      <p>{`${moment(values.appointmentDate).format(
-                        'dddd DD MMMM YYYY'
-                      )} ${values.appointmentHour}`}</p>
-                    </div>
-                  )}
-                  {inputs.map((confirmation) => (
-                    <div key={`${confirmation.label}confirmation`}>
-                      {values[`${confirmation.name}`] && (
-                        <>
-                          <FontAwesomeIcon icon={confirmation.icon} />
-                          <p>{values[`${confirmation.name}`]}</p>
-                        </>
-                      )}
-                    </div>
-                  ))}
-
-                  {Object.values(errors).every((v) => v === false) ? null : (
-                    <div>
-                      <FontAwesomeIcon icon={faX} className={`${styles['red-icon']}`} />
-                      <p className={`${styles['general-error']}`}>
-                        algunos datos se encuentran erróneos o incompletos
-                      </p>
-                    </div>
-                  )}
-
-                  <Button
-                    type={'submit'}
-                    variant={'default'}
-                    innerText={isSubmitting ? 'Enviando...' : 'Confirmar cita'}
-                    isSubmitting={isSubmitting}
-                  />
-                </div>
-                <div className={styles[`col-b`]}>
-                  <img alt='appointment-image' src={appointmentImage} />
-                </div>
-              </div>
-            </NumeratedSectionWrapper>
+            <FormikValueObserver
+              onChange={(values) => {
+                setCurrentSelectedDate(values.appointmentDate);
+              }}
+            />
+            <AppointmentTime
+              today={today}
+              lastDayOfYear={lastDayOfYear}
+              isSubmitting={isSubmitting}
+              holidaysLoading={holidaysLoading}
+              moment={moment}
+              values={values}
+              hours={hours}
+              currentSelectedDate={currentSelectedDate}
+              isTaken={isTaken}
+              hourChecked={hourChecked}
+              setFieldValue={setFieldValue}
+              setHourChecked={setHourChecked}
+            />
+            <AppointmentUserDetails inputs={inputs} />
+            <AppointmentVerification
+              values={values}
+              moment={moment}
+              inputs={inputs}
+              isSubmitting={isSubmitting}
+              errors={errors}
+            />
           </Form>
         )}
       </Formik>

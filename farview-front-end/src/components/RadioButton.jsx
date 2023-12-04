@@ -8,11 +8,13 @@ const RadioButton = ({
   defaultChecked,
   checked,
   disabled,
+  taken,
+  value,
 }) => {
   return (
     <div className={styles['rb-container']}>
-      
       <input
+        value={value}
         className={styles['rb-radio']}
         id={id}
         type='radio'
@@ -22,7 +24,7 @@ const RadioButton = ({
         checked={checked}
         disabled={disabled}
       />
-      <label className={styles['rb-label']} htmlFor={id}>
+      <label className={taken ? styles['taken-label'] : styles['rb-label']} htmlFor={id}>
         {innerText}
       </label>
     </div>

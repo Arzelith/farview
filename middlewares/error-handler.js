@@ -25,7 +25,6 @@ const errorHandler = (error, req, res, next) => {
     defaultError.statusCode = error.statusCode;
     defaultError.message = error.message;
   }
-
   res.status(defaultError.statusCode).json({ message: defaultError.message });
 };
 

@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require('cors');
 const connect = require('./db/db-connect');
 const createRootAdmin = require('./utils/create-root-admin');
 const cookieParser = require('cookie-parser');
@@ -9,10 +10,24 @@ const authRoutes = require('./routes/auth-routes');
 const adminRoutes = require('./routes/admin-routes');
 const refreshTokenRoutes = require('./routes/refresh-routes');
 const logoutRoutes = require('./routes/logout-routes');
+const appointmentRoutes = require('./routes/appointments-routes');
 //end routes imports
 
 const app = express();
 dotenv.config();
+
+// app.use(
+//   cors({
+//     origin:
+//       process.env.NODE_ENV !== 'production'
+//         ? ['http://localhost:3000']
+//         : [process.env.ORIGIN],
+//     credentials: true,
+//     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+//     optionSuccessStatus: 200,
+//   })
+// );
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: '20mb' }));
 app.use(cookieParser());
@@ -28,6 +43,7 @@ app.use(`${v1}/auth`, authRoutes);
 app.use(`${v1}/admin`, adminRoutes);
 app.use(`${v1}/refresh`, refreshTokenRoutes);
 app.use(`${v1}/logout`, logoutRoutes);
+app.use(`${v1}/appointment`, appointmentRoutes);
 
 //end routes
 app.use(errorHandler);
