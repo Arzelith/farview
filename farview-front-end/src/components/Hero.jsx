@@ -4,6 +4,13 @@ import headerImage from '../assets/images/header-image.png';
 import styles from '../css/Hero.module.css';
 
 const Hero = () => {
+  const navigateToSelection = () => {
+    const element = document.getElementById('appointment');
+    if (element) {
+      element.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className='container'>
       <ColumnsWrapper>
@@ -17,7 +24,12 @@ const Hero = () => {
             <p>Avenida Siempreviva #742, Springfield</p>
           </div>
           <div className={`${styles['btn-container']}`}>
-            <Button variant={'default'} type={'button'} innerText={'Agenda tu cita'} />
+            <Button
+              onClick={() => navigateToSelection()}
+              variant={'default'}
+              type={'button'}
+              innerText={'Agenda tu cita'}
+            />
           </div>
         </div>
         <div className={`${styles['column-b']}`}>

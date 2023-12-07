@@ -52,7 +52,7 @@ const Navigation = ({ currentPosition, isContactViewPort }) => {
 
   const changeToActive = (index) => {
     let style = `${styles['non-active']}`;
-    if (currentPosition >= offsets[index] && currentPosition < offsets[index + 1]) {
+    if (currentPosition+50 >= offsets[index] && currentPosition+50 <= offsets[index + 1]) {
       style = `${styles['active']}`;
     }
     if (index !== 3 && links[links.length - 1].inView === true) {

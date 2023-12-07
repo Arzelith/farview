@@ -4,6 +4,13 @@ import featuresImage from '../assets/images/iStock-1398162726.jpg';
 import styles from '../css/Features.module.css';
 
 const Features = () => {
+  const navigateToSelection = () => {
+    const element = document.getElementById('appointment');
+    if (element) {
+      element.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    }
+  };
+
   return (
     <div id='features' className={`container ${styles['features']}`}>
       <ColumnsWrapper className={`${styles['gap']}`}>
@@ -32,7 +39,12 @@ const Features = () => {
               servicio cercana y responsable.
             </p>
           </div>
-          <Button variant={'default'} type={'button'} innerText={'Agenda tu cita'} />
+          <Button
+            onClick={() => navigateToSelection()}
+            variant={'default'}
+            type={'button'}
+            innerText={'Agenda tu cita'}
+          />
         </div>
       </ColumnsWrapper>
     </div>
