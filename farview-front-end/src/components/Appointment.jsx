@@ -94,7 +94,7 @@ const Appointment = () => {
   const getDailyAppointments = async () => {
     try {
       const response = await axiosPublic.get(
-        `/farview-app/v1/appointment/${moment(currentSelectedDate).format('DD-MM-YYYY')}`
+        `/appointment/${moment(currentSelectedDate).format('DD-MM-YYYY')}`
       );
       setTakenHours(response.data);
     } catch (error) {
@@ -105,7 +105,7 @@ const Appointment = () => {
 
   const makeAppointment = async (values, actions) => {
     try {
-      const response = await axiosPublic.post('/farview-app/v1/appointment', values);
+      const response = await axiosPublic.post('/appointment', values);
       actions.setSubmitting(false);
       actions.resetForm();
       setHourChecked(-1);

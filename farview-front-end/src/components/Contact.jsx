@@ -1,9 +1,13 @@
+import { useState, useEffect } from 'react';
+import { axiosPublic } from '../Api/axios';
+import handleServerError from '../utils/serverErrorHandler';
 import { forwardRef } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import Input from './Input';
 import SectionWrapper from './SectionWrapper';
 import Button from './Button';
+import InfoModal from './InfoModal';
 import isEmail from 'validator/lib/isEmail';
 import contactImage from '../assets/images/q&aimage.jpg';
 import styles from '../css/Contact.module.css';
@@ -19,6 +23,9 @@ const initialValues = {
 //PENDIENTE VALIDACION DE EMAIL
 
 const Contact = forwardRef(({}, ref) => {
+  const [serverError, setServerError] = useState();
+  const [contactSuccess, setContactSuccess] = useState();
+
   const validationSchema = Yup.object({
     name: Yup.string()
       .trim()
@@ -39,6 +46,19 @@ const Contact = forwardRef(({}, ref) => {
       .max(2000, 'Su consulta no puede exceder los 2000 caracteres'),
   });
 
+  const sendMessage = async (values, actions) => {
+    try {
+      const response = await axiosPublic.post('/contact', values);
+      actions.setSubmitting(false);
+      actions.resetForm();
+      setContactSuccess(true);
+    } catch (error) {
+      actions.setSubmitting(false)
+      const serverError = handleServerError(error);
+      setServerError({ title: serverError.status, message: serverError.message });
+    }
+  };
+
   return (
     <SectionWrapper
       ref={ref}
@@ -50,15 +70,27 @@ const Contact = forwardRef(({}, ref) => {
         <img src={contactImage} alt='contact-image' />
       </div>
       <div className={`${styles['col-b']}`}>
+      {serverError && (
+        <InfoModal
+          type={'error'}
+          title={serverError.title}
+          message={serverError.message}
+          onClick={() => setServerError(null)}
+        />
+      )}
+      {contactSuccess && (
+        <InfoModal
+          type={'success'}
+          title={'Mensaje enviado con éxito'}
+          message={'Hemos recibido su mensaje. Nos contactaremos con Usted a la brevedad.'}
+          onClick={() => setContactSuccess(null)}
+        />
+      )}
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={(values, actions) => {
-            setTimeout(() => {
-              console.log({ ...values });
-              actions.setSubmitting(false);
-              actions.resetForm();
-            }, '3000');
+          onSubmit={async (values, actions) => {
+            await sendMessage(values, actions);
           }}
         >
           {({ isSubmitting, errors }) => (
