@@ -80,7 +80,7 @@ const Appointment = () => {
     try {
       setHolidaysLoading(true);
       const response = await axios.get(
-        'https://api.victorsanmartin.com/feriados/en.json'
+        'https://api.boostr.cl/feriados/en.json'
       );
       const holidays = response.data.data.map((item) => item.date);
       setHolidays(holidays);

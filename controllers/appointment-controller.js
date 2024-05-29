@@ -129,7 +129,7 @@ const getHolidays = async (datedata) => {
   let dateData = datedata;
   let isHoliday = false;
   try {
-    const response = await axios.get('https://api.victorsanmartin.com/feriados/en.json');
+    const response = await axios.get('https://api.boostr.cl/feriados/en.json');
     holidays = response.data.data.map((item) => item.date);
     if (holidays.includes(`${dateData[2]}-${dateData[1]}-${dateData[0]}`)) {
       isHoliday = true;

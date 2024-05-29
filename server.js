@@ -1,6 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const path = require('path')
+const path = require('path');
 const connect = require('./db/db-connect');
 const createRootAdmin = require('./utils/create-root-admin');
 const cookieParser = require('cookie-parser');
@@ -36,11 +36,14 @@ app.use(`${v1}/appointment`, appointmentRoutes);
 app.use(`${v1}/contact`, contactRoutes);
 //end routes
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, './farview-front-end/dist')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './farview-front-end/dist/index.html'));
+  });
+}
 
-app.use(express.static(path.join(__dirname,'./farview-front-end/dist')))
-app.get('*',(req, res)=>{
-  res.sendFile(path.join(__dirname,'./farview-front-end/dist/index.html'))
-})
+
 
 app.use(errorHandler);
 
