@@ -1,5 +1,5 @@
 .footer {
-  padding-top: 6.5rem;
+  padding-top: 4.5rem;
   padding-bottom: 1.5rem;
   background-color: var(--clr-accent-100);
 }
@@ -12,16 +12,6 @@
   font-size: var(--fs-300);
 }
 
-.footer ul {
-  display: flex;
-  align-items: center;
-  width: 16rem;
-}
-
-.footer ul {
-  list-style: none;
-}
-
 .footer a {
   text-decoration: none;
   margin-inline: 0.1rem;
@@ -29,7 +19,7 @@
   font-size: var(--fs-300);
 }
 
-footer h6{
+footer h6 {
   margin-bottom: 0.1rem;
 }
 
@@ -39,7 +29,7 @@ footer h6{
 }
 
 @media (min-width: 992px) {
-  .spacing{
+  .spacing {
     justify-content: space-around;
     gap: 0;
   }
