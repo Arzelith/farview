@@ -8,12 +8,12 @@ const sendMessage = asyncHandler(async (req, res) => {
     throw new RequestError(400, 'Todos los campos son requeridos');
   }
   await transporter(
+    `${name + ' ' + lastName} <${process.env.MAILER_USER}>`,
     process.env.MAILER_USER,
-    process.env.MAILER_USER,
-    `Consulta de cliente`,
-    `Cliente: ${name} ${lastName}\n
-    Email: ${email}\n
-    Consulta: ${content}`
+    'Consulta de cliente',
+    `<p>Cliente: ${name} ${lastName}</p>
+    <p>Email: ${email}</p>
+    <p>Consulta: ${content}</p>`
   );
   res.sendStatus(200);
 });

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { axiosPublic } from '../Api/axios';
 import handleServerError from '../utils/serverErrorHandler';
 import { forwardRef } from 'react';
@@ -18,9 +18,6 @@ const initialValues = {
   email: '',
   content: '',
 };
-
-//PENDIENTE MODAL DE CONFIRMACIÓN & ERROR
-//PENDIENTE VALIDACION DE EMAIL
 
 const Contact = forwardRef(({}, ref) => {
   const [serverError, setServerError] = useState();
@@ -53,7 +50,7 @@ const Contact = forwardRef(({}, ref) => {
       actions.resetForm();
       setContactSuccess(true);
     } catch (error) {
-      actions.setSubmitting(false)
+      actions.setSubmitting(false);
       const serverError = handleServerError(error);
       setServerError({ title: serverError.status, message: serverError.message });
     }
@@ -65,27 +62,30 @@ const Contact = forwardRef(({}, ref) => {
       id={'contact'}
       heading={'¿Tienes Consultas?'}
       SectionType={'contact'}
+      isDecorator={true}
     >
       <div className={`${styles['col-a']}`}>
         <img src={contactImage} alt='contact-image' />
       </div>
       <div className={`${styles['col-b']}`}>
-      {serverError && (
-        <InfoModal
-          type={'error'}
-          title={serverError.title}
-          message={serverError.message}
-          onClick={() => setServerError(null)}
-        />
-      )}
-      {contactSuccess && (
-        <InfoModal
-          type={'success'}
-          title={'Mensaje enviado con éxito'}
-          message={'Hemos recibido su mensaje. Nos contactaremos con Usted a la brevedad.'}
-          onClick={() => setContactSuccess(null)}
-        />
-      )}
+        {serverError && (
+          <InfoModal
+            type={'error'}
+            title={serverError.title}
+            message={serverError.message}
+            onClick={() => setServerError(null)}
+          />
+        )}
+        {contactSuccess && (
+          <InfoModal
+            type={'success'}
+            title={'Mensaje enviado con éxito'}
+            message={
+              'Hemos recibido su mensaje. Nos contactaremos con Usted a la brevedad.'
+            }
+            onClick={() => setContactSuccess(null)}
+          />
+        )}
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}

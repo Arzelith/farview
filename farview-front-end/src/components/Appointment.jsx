@@ -63,8 +63,6 @@ const initialValues = {
   appointmentHour: '',
 };
 
-//PENDIENTE MODAL DE CONFIRMACIÓN
-
 const Appointment = () => {
   const [hourChecked, setHourChecked] = useState(-1);
   const [holidays, setHolidays] = useState([]);
@@ -79,14 +77,11 @@ const Appointment = () => {
   const getHoliDays = async () => {
     try {
       setHolidaysLoading(true);
-      const response = await axios.get(
-        'https://api.boostr.cl/feriados/en.json'
-      );
+      const response = await axios.get('https://api.boostr.cl/feriados/en.json');
       const holidays = response.data.data.map((item) => item.date);
       setHolidays(holidays);
       setHolidaysLoading(false);
     } catch (error) {
-      console.log(error);
       setHolidaysLoading(false);
     }
   };

@@ -50,13 +50,26 @@ const createAppointment = asyncHandler(async (req, res) => {
     appointmentHour,
   });
   await transporter(
-    process.env.MAILER_USER,
+    `"Óptica Farview" <${process.env.MAILER_USER}>`,
     email,
     'Cita agendada',
-    `Estimado/a ${names} ${lastNames}:
-    \nSe ha reservado una hora para el ${moment(appointmentDate).format(
+    `<p>Estimado/a ${names} ${lastNames}:</p>
+    <p>Se ha reservado una hora para el ${moment(appointmentDate).format(
       'dddd DD MMMM'
-    )} a las ${appointmentHour}hrs. Su atención se realizará en nuestra sucursal ubicada en Avenida Siempreviva #742 Springfield. Para una mejor atención recuerde llegar 10 minutos antes de la hora estipulada.\nAtte: Óptica Farview`
+    )} a las ${appointmentHour}hrs. Su atención se realizará en nuestra sucursal ubicada en Avenida Siempreviva #742 Springfield. Para una mejor atención recuerde llegar 10 minutos antes de la hora estipulada.<p/>
+    <p>Atte: Óptica Farview</p>`
+  );
+  await transporter(
+    `"Óptica Farview" <${process.env.MAILER_USER}>`,
+    process.env.MAILER_USER,
+    'Cita agendada por cliente',
+    `<p>Detalles de cita:</p>
+    <p>Nombre: ${names} ${lastNames}</p>
+    <p>Rut: ${rut}</p>
+    <p>Hora de atención: ${moment(appointmentDate).format(
+      'dddd DD MMMM'
+    )}, ${appointmentHour}hrs.</p>
+    `
   );
   res.status(200).json(appointment);
 });

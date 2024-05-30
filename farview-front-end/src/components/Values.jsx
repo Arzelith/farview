@@ -35,7 +35,7 @@ const values = [
 
 const Values = () => {
   return (
-    <SectionWrapper heading={'Nuestros Valores'} SectionType={'values'}>
+    <SectionWrapper heading={'Nuestros Valores'} SectionType={'values'} isDecorator={true}>
       {values.map((value) => (
         <Card
           key={value.id}

@@ -39,16 +39,13 @@ const Footer = () => {
         <ColumnsWrappper className={`${styles['spacing']}`}>
           <div className={`${styles['col']}`}>
             <h6>¿Quieres hacer una compra?</h6>
-            <p>
-              No esperes mas y agenda tu cita <a href='#'>aquí</a>{' '}
-            </p>
+            
+              <a href='#'>No esperes mas y agenda tu cita </a>{' '}
+            
           </div>
           <div className={`${styles['col']}`}>
             <h6>Links</h6>
             <ul>
-              <li>
-                <p>Menu:</p>
-              </li>
               {footerLinks.map((item) => (
                 <Link key={item.id} onClick={() => navigateToSection(item.destination)}>
                   {item.innerText}
@@ -59,7 +56,7 @@ const Footer = () => {
           <div className={`${styles['col']}`}>
             <h6>Contacto</h6>
             <p>
-              Escríbenos a <a href='mailto:farview@gmail.com'>farview@gmail.com</a>
+              <a href='mailto:farview@gmail.com'>Farview@gmail.com</a>
             </p>
           </div>
         </ColumnsWrappper>
